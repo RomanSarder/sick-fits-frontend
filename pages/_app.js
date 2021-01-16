@@ -4,17 +4,17 @@ import { ApolloProvider } from '@apollo/client'
 import withData from '../lib/withData'
 
 class MyApp extends App {
-  static async getInitialProps ({ Component, ctx }) {
-    let pageProps = {}
+  // static async getInitialProps ({ Component, ctx }) {
+  //   let pageProps = {}
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps()
-    }
+  //   if (Component.getInitialProps) {
+  //     pageProps = await Component.getInitialProps()
+  //   }
 
-    pageProps.query = ctx.query
+  //   pageProps.query = ctx.query
 
-    return { pageProps }
-  }
+  //   return { pageProps }
+  // }
 
   render () {
     const { Component, apollo, pageProps } = this.props
