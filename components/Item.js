@@ -22,7 +22,7 @@ const Item = ({ item }) => {
             <p>{item.description}</p>
             <div className="buttonList">
                 <Link href={{
-                    pathname: "update",
+                    pathname: "/update",
                     query: { id: item.id }
                 }}>
                     <a>Edit</a>
