@@ -31,11 +31,11 @@ export const CREATE_ITEM_QUERY = gql`
 `
 
 export default function CreateItem() {
-    const [title, setTitle] = useState('Title here')
-    const [description, setDescription] = useState('Desc')
-    const [image, setImage] = useState('dog.jpg')
-    const [largeImage, setLargeImage] = useState('dog2.jpg')
-    const [price, setPrice] = useState(10)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('')
+    const [largeImage, setLargeImage] = useState('')
+    const [price, setPrice] = useState(0)
     const [createItem, { error, loading }] = useMutation(CREATE_ITEM_QUERY)
 
     const resetForm = () => {
@@ -46,13 +46,33 @@ export default function CreateItem() {
         setPrice(0)
     }
 
+    const uploadFile = async (e) => {
+        console.log('uploading file...')
+        const files = e.target.files;
+        const formData = new FormData()
+        formData.append('file', files[0])
+        formData.append('upload_preset', 'sickfits')
+
+        const res = await fetch('https://api.cloudinary.com/v1_1//sarder-inc/image/upload', {
+            method: 'POST',
+            body: formData
+        })
+
+        const file = await res.json();
+        console.log(file);
+        setImage(file.secure_url)
+        setLargeImage(file.eager[0].secure_url)
+    }
+
     return (
         <Form onSubmit={async (event) => {
             event.preventDefault();
             const { data } = await createItem({ variables: {
                 title,
                 description,
-                price
+                price,
+                image,
+                largeImage
             }})
             resetForm()
             console.log(data)
@@ -63,6 +83,17 @@ export default function CreateItem() {
         }}>
             <fieldset disabled={loading} aria-busy={loading}>
                 <ErrorMessage error={error}/>
+                <label htmlFor="file">
+                  Image  
+                  <input 
+                    type="file" 
+                    id="image" 
+                    name="image" 
+                    placeholder="Upload an image"
+                    onChange={uploadFile} 
+                    required/>
+                   {image && <img src={image} />} 
+                </label>
                 <label htmlFor="title">
                   Title  
                   <input 
