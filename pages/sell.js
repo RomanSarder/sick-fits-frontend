@@ -1,9 +1,10 @@
-import Link from 'next/link'
+import withApollo from '../lib/withApollo'
+import CreateItem from '../components/CreateItem'
 
 const Sell = props => (
   <div>
-    <p>Sell!</p>
+    <CreateItem></CreateItem>
   </div>
 )
 
-export default Sell
+export default withApollo(Sell)
