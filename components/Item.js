@@ -21,10 +21,7 @@ const Item = ({ item }) => {
             <PriceTag>{formatMoney(item.price)}</PriceTag>
             <p>{item.description}</p>
             <div className="buttonList">
-                <Link href={{
-                    pathname: "/update",
-                    query: { id: item.id }
-                }}>
+                <Link href={`/item/${item.id}/edit`}>
                     <a>Edit</a>
                 </Link>
                 <button>Add To Cart</button>

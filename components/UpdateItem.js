@@ -1,18 +1,33 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useMutation, gql } from '@apollo/client'
+import { useMutation, gql, useQuery } from '@apollo/client'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
 
-export const CREATE_ITEM_QUERY = gql`
-    mutation createItem (
-        $title: String!,
-        $description: String!,
+export const GET_ITEM_QUERY = gql`
+    query item ($id: Int!) {
+        item (where: { id: $id }) {
+            id,
+            title,
+            description,
+            largeImage,
+            image,
+            price
+        }
+    }
+`
+
+export const UPDATE_ITEM_MUTATION = gql`
+    mutation updateItem (
+        $id: Int!
+        $title: String,
+        $description: String,
         $image: String,
         $largeImage: String,
-        $price: Int!
+        $price: Int
     ) {
-        createItem (
+        updateItem (
+            id: $id
             title: $title,
             description: $description,
             image: $image,
@@ -29,73 +44,43 @@ export const CREATE_ITEM_QUERY = gql`
     }
 `
 
-export default function CreateItem() {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
-    const [largeImage, setLargeImage] = useState('')
-    const [price, setPrice] = useState(0)
-    const [createItem, { error, loading }] = useMutation(CREATE_ITEM_QUERY)
+export default function UpdateItem() {
     const router = useRouter()
+    const id = parseInt(router.query.id)
 
-    const resetForm = () => {
-        setTitle('')
-        setDescription('')
-        setImage('')
-        setLargeImage('')
-        setPrice(0)
+    const [updateItem, { error: updateItemError, loading: updateItemLoading }] = useMutation(UPDATE_ITEM_MUTATION)
+    const { error: getItemError, data, loading: getItemLoading } = useQuery(GET_ITEM_QUERY, { variables: { id } })
+
+    if (!data?.item) {
+        return (<p>No item found</p>)
     }
 
-    const uploadFile = async (e) => {
-        console.log('uploading file...')
-        const files = e.target.files;
-        const formData = new FormData()
-        formData.append('file', files[0])
-        formData.append('upload_preset', 'sickfits')
-
-        const res = await fetch('https://api.cloudinary.com/v1_1//sarder-inc/image/upload', {
-            method: 'POST',
-            body: formData
-        })
-
-        const file = await res.json();
-        console.log(file);
-        setImage(file.secure_url)
-        setLargeImage(file.eager[0].secure_url)
-    }
+    const [title, setTitle] = useState(data?.item.title || '')
+    const [description, setDescription] = useState(data?.item.description || '')
+    const [image, setImage] = useState(data?.item.image || '')
+    const [largeImage, setLargeImage] = useState(data?.item.largeImage || '')
+    const [price, setPrice] = useState(data?.item.price || 0)
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        const { data } = await createItem({ variables: {
+        const { data } = await updateItem({ variables: {
+            id,
             title,
             description,
             price,
             image,
             largeImage
         }})
-        resetForm()
-        console.log(data)
         router.push({
             pathname: '/item',
-            query: { id:  data.createItem.id}
+            query: { id:  data.updateItem.id}
         })
     }
 
     return (
         <Form onSubmit={async (event) => handleFormSubmit(event)}>
-            <fieldset disabled={loading} aria-busy={loading}>
-                <ErrorMessage error={error}/>
-                <label htmlFor="file">
-                  Image  
-                  <input 
-                    type="file" 
-                    id="image" 
-                    name="image" 
-                    placeholder="Upload an image"
-                    onChange={uploadFile} 
-                    required/>
-                   {image && <img src={image} />} 
-                </label>
+            <fieldset disabled={updateItemLoading} aria-busy={updateItemLoading}>
+                <ErrorMessage error={updateItemError}/>
                 <label htmlFor="title">
                   Title  
                   <input 
