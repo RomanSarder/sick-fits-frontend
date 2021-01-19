@@ -2,6 +2,7 @@ import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 import styled from 'styled-components'
 import Item from './Item'
+import Pagination from './Pagination'
 
 export const ALL_ITEMS_QUERY = gql`
     query ALL_ITEMS_QUERY {
@@ -45,7 +46,9 @@ const Items = () => {
 
     return (
         <Center>
-            {displayContent()}
+            <Pagination />
+                {displayContent()}
+            <Pagination/>
         </Center>
     )
 }
