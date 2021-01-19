@@ -29,7 +29,7 @@ export const CREATE_ITEM_QUERY = gql`
     }
 `
 
-export default function CreateItem() {
+const CreateItem = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
@@ -133,3 +133,5 @@ export default function CreateItem() {
         </Form>
     )
 }
+
+export default CreateItem

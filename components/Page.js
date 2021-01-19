@@ -55,21 +55,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-export default class Page extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>
-          <StyledPage> 
-            <Meta />
-            <Header />
-            <Inner>
-              {this.props.children}
-            </Inner>
-          </StyledPage>
-        </ThemeProvider>
-      </React.Fragment>
-    )
-  }
-}
+const Page = ({ children }) => (
+  <React.Fragment>
+    <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <StyledPage> 
+        <Meta />
+        <Header />
+        <Inner>
+          {children}
+        </Inner>
+      </StyledPage>
+    </ThemeProvider>
+  </React.Fragment>
+)
+
+export default Page

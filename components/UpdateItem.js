@@ -3,19 +3,7 @@ import { useState } from 'react'
 import { useMutation, gql, useQuery } from '@apollo/client'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
-
-export const GET_ITEM_QUERY = gql`
-    query item ($id: Int!) {
-        item (where: { id: $id }) {
-            id,
-            title,
-            description,
-            largeImage,
-            image,
-            price
-        }
-    }
-`
+import { GET_ITEM_QUERY } from './SingleItem'
 
 export const UPDATE_ITEM_MUTATION = gql`
     mutation updateItem (
@@ -44,7 +32,7 @@ export const UPDATE_ITEM_MUTATION = gql`
     }
 `
 
-export default function UpdateItem() {
+const UpdateItem = () => {
     const router = useRouter()
     const id = parseInt(router.query.id)
 
@@ -118,3 +106,5 @@ export default function UpdateItem() {
         </Form>
     )
 }
+
+export default UpdateItem

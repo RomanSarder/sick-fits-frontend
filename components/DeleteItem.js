@@ -8,7 +8,7 @@ const DELETE_ITEM_MUTATION = gql`
     }
 `
 
-export default function DeleteItem({ children, id }) {
+const DeleteItem = ({ children, id }) => {
     const [deleteItem, { error, loading }] = useMutation(DELETE_ITEM_MUTATION, {
         update (cache) {
             cache.modify({
@@ -38,3 +38,5 @@ export default function DeleteItem({ children, id }) {
         <button onClick={handleItemDelete}>{children}</button>
     )
 }
+
+export default DeleteItem
