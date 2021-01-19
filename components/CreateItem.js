@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
+import { ALL_ITEMS_QUERY } from './Items'
 
 export const CREATE_ITEM_QUERY = gql`
     mutation createItem (

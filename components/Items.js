@@ -3,10 +3,12 @@ import { gql, useQuery } from '@apollo/client'
 import styled from 'styled-components'
 import Item from './Item'
 import Pagination from './Pagination'
+import { perPage } from '../config'
+import { useRouter } from 'next/router'
 
 export const ALL_ITEMS_QUERY = gql`
-    query ALL_ITEMS_QUERY {
-        items {
+    query ALL_ITEMS_QUERY ($skip: Int = 0, $take: Int = ${perPage}) {
+        items (skip: $skip, take: $take) {
             createdAt
             description
             id
@@ -32,7 +34,13 @@ const ItemsList = styled.div`
 `
 
 const Items = () => {
-    const { loading, error, data } = useQuery(ALL_ITEMS_QUERY)
+    const router = useRouter()
+    const page = parseInt(router.query?.page || 1)
+    const { loading, error, data } = useQuery(ALL_ITEMS_QUERY, {
+        variables: {
+            skip: page * perPage - perPage,
+        }
+    })
     const displayContent = () => {
         if (loading) return (<p>Loading...</p>)
         if (error) return (<p>Error: {error.message}</p>)
