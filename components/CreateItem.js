@@ -35,7 +35,30 @@ const CreateItem = () => {
     const [image, setImage] = useState('')
     const [largeImage, setLargeImage] = useState('')
     const [price, setPrice] = useState(0)
-    const [createItem, { error, loading }] = useMutation(CREATE_ITEM_QUERY)
+    const [createItem, { error, loading }] = useMutation(CREATE_ITEM_QUERY, {
+        update (cache, { data: { createItem } }) {
+            cache.modify({
+                fields: {
+                  items(existingItems = []) {
+                    const newItemRef = cache.writeFragment({
+                      data: createItem,
+                      fragment: gql`
+                        fragment NewItem on Item {
+                          id
+                          title,
+                          description,
+                          largeImage,
+                          image,
+                          price
+                        }
+                      `
+                    });
+                    return [...existingItems, newItemRef];
+                  }
+                }
+              });
+        }
+    })
     const router = useRouter()
 
     const resetForm = () => {
@@ -75,10 +98,7 @@ const CreateItem = () => {
         }})
         resetForm()
         console.log(data)
-        router.push({
-            pathname: '/item',
-            query: { id:  data.createItem.id}
-        })
+        router.push(`/item/${data.createItem.id}`)
     }
 
     return (
