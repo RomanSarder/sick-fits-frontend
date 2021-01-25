@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { gql, useApolloClient, useQuery } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import styled from 'styled-components'
 import Item from './Item'
 import Pagination from './Pagination'
@@ -40,9 +40,6 @@ const ItemsList = styled.div`
 `
 
 const Items = () => {
-    // const router = useRouter()
-    // const page = parseInt(router.query?.page || 1)
-    const client = useApolloClient()
     const initialPage = 1
     const [page, setPage] = useState(initialPage)
     const [skip, setSkip] = useState(0)
@@ -53,8 +50,7 @@ const Items = () => {
         }
     })
     const count = paginationData?.itemsCount || 0
-    const pages = count > 0 ? Math.ceil(count / perPage) : 0
-    // skip: page * perPage - perPage,
+    const pages = count > 0 ? Math.ceil(count / perPage) : 0;
     const displayContent = () => {
         if (loading) return (<p>Loading...</p>)
         if (error) return (<p>Error: {error.message}</p>)
@@ -69,16 +65,6 @@ const Items = () => {
     useEffect(() => {
         setSkip(page * perPage - perPage)
     }, [page])
-
-    useEffect(() => {
-        // if (page !== initialPage) {
-        //     fetchMore({
-        //         variables: {
-        //             skip
-        //         }
-        //     })
-        // }
-    })
 
     const onNextPage = () => {
         setPage(page < pages ? page + 1 : page)

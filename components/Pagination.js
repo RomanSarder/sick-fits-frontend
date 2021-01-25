@@ -1,10 +1,8 @@
-import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import PaginationStyles from './styles/PaginationStyles'
 
 const Pagination = ({ page, count, pages, onNextPage, onPrevPage }) => {
-    // const router = useRouter()
     const displayString = `Page ${page} of ${pages}`
 
 
