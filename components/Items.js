@@ -56,9 +56,9 @@ const Items = () => {
         if (error) return (<p>Error: {error.message}</p>)
         return (
         <ItemsList>
-             {itemsData.items.map((item) => (
+             {itemsData ? itemsData.items.map((item) => (
                 <Item item={item} key={item.id}/>
-            ))}
+            )) : <p>No items</p>}
         </ItemsList>)
     }
 
