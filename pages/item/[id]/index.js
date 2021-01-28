@@ -1,4 +1,4 @@
-import withApollo from '../../../lib/withApollo'
+import { withApolloPage } from '../../../lib/withApollo'
 import SingleItem from '../../../components/SingleItem'
 
 const Item = () => {
@@ -9,4 +9,4 @@ const Item = () => {
     )
 }
 
-export default withApollo(Item)
+export default withApolloPage(Item)

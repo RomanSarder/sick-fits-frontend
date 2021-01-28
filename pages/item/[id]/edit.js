@@ -1,4 +1,4 @@
-import withApollo from '../../../lib/withApollo'
+import {withApolloPage} from '../../../lib/withApollo'
 import UpdateItem from '../../../components/UpdateItem'
 
 const Edit = props => {
@@ -9,4 +9,4 @@ const Edit = props => {
   )
 }
 
-export default withApollo(Edit)
+export default withApolloPage(Edit)

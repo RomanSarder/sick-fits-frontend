@@ -1,4 +1,4 @@
-import withApollo from '../lib/withApollo'
+import {withApolloPage} from '../lib/withApollo'
 import Signup from '../components/Signup'
 import styled from 'styled-components'
 
@@ -14,4 +14,4 @@ const SignupPage = props => (
   </Columns>
 )
 
-export default withApollo(SignupPage)
+export default withApolloPage(SignupPage)

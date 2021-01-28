@@ -1,4 +1,4 @@
-import withApollo from '../lib/withApollo'
+import {withApolloPage} from '../lib/withApollo'
 import CreateItem from '../components/CreateItem'
 
 const Sell = props => (
@@ -7,4 +7,4 @@ const Sell = props => (
   </div>
 )
 
-export default withApollo(Sell)
+export default withApolloPage(Sell)

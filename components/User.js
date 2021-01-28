@@ -14,7 +14,6 @@ export const CURRENT_USER_QUERY = gql`
 
 const User = () => {
     const { data, loading, error } = useQuery(CURRENT_USER_QUERY)
-    console.log(loading, 'loading me')
     if (data && data.me !== null) {
         return <p>{data.me.name}</p>
     } else {

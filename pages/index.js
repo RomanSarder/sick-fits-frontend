@@ -1,4 +1,4 @@
-import withApollo from '../lib/withApollo'
+import { withApolloPage } from '../lib/withApollo'
 import Items from '../components/Items'
 
 const Home = props => (
@@ -7,4 +7,4 @@ const Home = props => (
   </div>
 )
 
-export default withApollo(Home)
+export default withApolloPage(Home)
