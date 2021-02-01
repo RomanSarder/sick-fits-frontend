@@ -1,4 +1,5 @@
 import { useQuery, gql } from '@apollo/client'
+import PropTypes from 'prop-types'
 import { withApolloComponent } from '../lib/withApollo'
 
 export const CURRENT_USER_QUERY = gql`
@@ -12,13 +13,14 @@ export const CURRENT_USER_QUERY = gql`
     }
 `
 
-const User = () => {
+const User = ({ children }) => {
     const { data, loading, error } = useQuery(CURRENT_USER_QUERY)
-    if (data && data.me !== null) {
-        return <p>{data.me.name}</p>
-    } else {
-        return null
-    }
+    
+    return children(data)
+}
+
+User.PropTypes = {
+    children: PropTypes.func.isRequired
 }
 
 export default withApolloComponent(User)
