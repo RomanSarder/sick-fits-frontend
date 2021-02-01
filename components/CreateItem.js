@@ -90,16 +90,20 @@ const CreateItem = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        const { data } = await createItem({ variables: {
-            title,
-            description,
-            price,
-            image,
-            largeImage
-        }})
-        resetForm()
-        console.log(data)
-        router.push(`/item/${data.createItem.id}`)
+        try {
+          const { data } = await createItem({ variables: {
+              title,
+              description,
+              price,
+              image,
+              largeImage
+          }})
+          resetForm()
+          console.log(data)
+          router.push(`/item/${data.createItem.id}`)
+        } catch (e) {
+          console.log(e)
+        }
     }
 
     return (

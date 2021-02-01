@@ -51,18 +51,22 @@ const UpdateItem = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        const { data } = await updateItem({ variables: {
-            id,
-            title,
-            description,
-            price,
-            image,
-            largeImage
-        }})
-        router.push({
-            pathname: '/item',
-            query: { id:  data.updateItem.id}
-        })
+        try {
+            const { data } = await updateItem({ variables: {
+                id,
+                title,
+                description,
+                price,
+                image,
+                largeImage
+            }})
+            router.push({
+                pathname: '/item',
+                query: { id:  data.updateItem.id}
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     return (

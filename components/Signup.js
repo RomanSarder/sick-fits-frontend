@@ -31,15 +31,19 @@ const Signup = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault()
-        const newUser = {
-            email,
-            name,
-            password
+        try {
+            const newUser = {
+                email,
+                name,
+                password
+            }
+    
+            await signup({
+                variables: newUser
+            })
+        } catch (e) {
+            console.log(e)
         }
-
-        await signup({
-            variables: newUser
-        })
     }
 
     return (

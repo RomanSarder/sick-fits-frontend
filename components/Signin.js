@@ -29,14 +29,18 @@ const Signup = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault()
-        const user = {
-            email,
-            password
+        try {
+            const user = {
+                email,
+                password
+            }
+    
+            await signin({
+                variables: user
+            })
+        } catch (e) {
+            console.log(e)
         }
-
-        await signin({
-            variables: user
-        })
     }
 
     return (
