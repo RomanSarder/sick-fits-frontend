@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
+import { CURRENT_USER_QUERY } from './User'
 
 const REQUEST_RESET_MUTATION = gql`
     mutation REQUEST_RESET_MUTATION (
@@ -14,7 +15,11 @@ const REQUEST_RESET_MUTATION = gql`
 `
 
 const RequestReset = () => {
-    const [requestReset, { error, loading, called }] = useMutation(REQUEST_RESET_MUTATION)
+    const [requestReset, { error, loading, called }] = useMutation(REQUEST_RESET_MUTATION, {
+        refetchQueries: [
+            { query: CURRENT_USER_QUERY }
+        ]
+    })
     const [email, setEmail] = useState('')
 
     const handleFormSubmit = async (event) => {
