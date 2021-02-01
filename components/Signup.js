@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGNUP_MUTATION = gql`
     mutation signup (
@@ -19,7 +20,11 @@ const SIGNUP_MUTATION = gql`
 `
 
 const Signup = () => {
-    const [signup, { error, loading }] = useMutation(SIGNUP_MUTATION)
+    const [signup, { error, loading }] = useMutation(SIGNUP_MUTATION, {
+        refetchQueries: [
+            { query: CURRENT_USER_QUERY }
+        ]
+    })
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
