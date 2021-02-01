@@ -1,5 +1,6 @@
 import {withApolloPage} from '../lib/withApollo'
 import Signup from '../components/Signup'
+import Signin from '../components/Signin'
 import styled from 'styled-components'
 
 const Columns = styled.div`
@@ -8,9 +9,10 @@ const Columns = styled.div`
     grid-gap: 20px;
 `   
 
-const SignupPage = props => (
+const SignupPage = () => (
   <Columns>
     <Signup/>
+    <Signin/>
   </Columns>
 )
 
