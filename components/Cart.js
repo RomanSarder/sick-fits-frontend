@@ -25,7 +25,7 @@ const Cart = () => {
             </header>
             <ul>
                 {currentUser.cart.map(cartItem => (
-                    <CartItem key={cartItem.id} cartItem={cartItem}/>
+                    <CartItem key={cartItem.userId + cartItem.itemId} cartItem={cartItem}/>
                 ))}
             </ul>
             <footer>

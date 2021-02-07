@@ -10,7 +10,6 @@ export const CURRENT_USER_QUERY = gql`
             name,
             permissions,
             cart {
-                id
                 item {
                     id
                     title
@@ -18,7 +17,9 @@ export const CURRENT_USER_QUERY = gql`
                     description,
                     image
                 },
-                quantity
+                quantity,
+                userId,
+                itemId
             }
         }
     }
