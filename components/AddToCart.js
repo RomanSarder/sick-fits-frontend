@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client"
+import { useCart } from "../lib/cartState"
 import { CURRENT_USER_QUERY } from "./User"
 
 const ADD_TO_CART_MUTATION = gql`
@@ -28,9 +29,15 @@ const AddToCart = ({ id }) => {
             { query: CURRENT_USER_QUERY }
         ]
     })
+    const { openCart } = useCart()
+
+    const onAddToCart = async () => {
+        await addToCart()
+        openCart()
+    }
 
     return (
-        <button type="button" disabled={loading} onClick={addToCart}>
+        <button type="button" disabled={loading} onClick={onAddToCart}>
             Add{loading && 'ing'} To Cart 🛒
         </button>
     )

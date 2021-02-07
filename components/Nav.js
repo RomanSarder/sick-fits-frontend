@@ -3,11 +3,11 @@ import Link from 'next/link'
 import NavStyles from './styles/NavStyles'
 import User from './User'
 import Signout from './Signout'
+import CartCount from './CartCount'
 import { useCart } from '../lib/cartState'
 
 const Nav = () => {
   const { openCart } = useCart()
-
   return (
     <User>
       {data => (
@@ -28,7 +28,11 @@ const Nav = () => {
               </Link>
               <a>{data.me.name}</a>
               <Signout/>
-              <button type="button" onClick={openCart}>My Cart</button>
+              <button type="button" onClick={openCart}>
+                My Cart
+                <CartCount 
+                  count={data.me.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)}/>
+              </button>
             </React.Fragment>
           )}
           {(!data || data.me === null) && <Link href="/signup">
