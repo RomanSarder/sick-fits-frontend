@@ -8,14 +8,25 @@ export const CURRENT_USER_QUERY = gql`
             id,
             email,
             name,
-            permissions
+            permissions,
+            cart {
+                id
+                item {
+                    id
+                    title
+                    price,
+                    description,
+                    image
+                },
+                quantity
+            }
         }
     }
 `
 
 const User = ({ children }) => {
     const { data, loading, error } = useQuery(CURRENT_USER_QUERY)
-    
+    console.log(data, 'FROM USER')
     return children(data)
 }
 
