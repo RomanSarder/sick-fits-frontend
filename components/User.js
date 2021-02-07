@@ -26,7 +26,6 @@ export const CURRENT_USER_QUERY = gql`
 
 const User = ({ children }) => {
     const { data, loading, error } = useQuery(CURRENT_USER_QUERY)
-    console.log(data, 'FROM USER')
     return children(data)
 }
 

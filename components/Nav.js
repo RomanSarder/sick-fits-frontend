@@ -3,8 +3,11 @@ import Link from 'next/link'
 import NavStyles from './styles/NavStyles'
 import User from './User'
 import Signout from './Signout'
+import { useCart } from '../lib/cartState'
 
 const Nav = () => {
+  const { openCart } = useCart()
+
   return (
     <User>
       {data => (
@@ -25,6 +28,7 @@ const Nav = () => {
               </Link>
               <a>{data.me.name}</a>
               <Signout/>
+              <button type="button" onClick={openCart}>My Cart</button>
             </React.Fragment>
           )}
           {(!data || data.me === null) && <Link href="/signup">
