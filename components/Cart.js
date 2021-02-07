@@ -2,9 +2,11 @@ import { useQuery } from '@apollo/client'
 import { withApolloComponent } from '../lib/withApollo'
 import { CURRENT_USER_QUERY } from './User'
 import CartItem from './CartItem'
+
 import CartStyles from './styles/CartStyles'
 import CloseButton from './styles/CloseButton'
 import Supreme from './styles/Supreme'
+
 import formatMoney from '../lib/formatMoney'
 import calcTotalPrice from '../lib/calcTotalPrice'
 import { useCart } from '../lib/cartState'
