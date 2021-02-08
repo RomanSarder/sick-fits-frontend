@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withApolloComponent } from '../lib/withApollo'
 import { CURRENT_USER_QUERY } from './User'
 import CartItem from './CartItem'
+import Checkout from './Checkout'
 
 import CartStyles from './styles/CartStyles'
 import CloseButton from './styles/CloseButton'
@@ -32,6 +33,7 @@ const Cart = () => {
             </ul>
             <footer>
                 <p>Total: {formatMoney(calcTotalPrice(currentUser.cart))}</p>
+                <Checkout />
             </footer>
         </CartStyles>
     )

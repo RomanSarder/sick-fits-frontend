@@ -28,7 +28,7 @@ const RemoveFromCart = ({ id }) => {
         variables: {
             id
         },
-        update
+        update,
     })
 
     return (
