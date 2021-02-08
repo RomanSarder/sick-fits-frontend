@@ -38,7 +38,7 @@ const SingleOrderPage = () => {
         }
     })
 
-    if (!data || data.order === null) {
+    if (data && data.order === null) {
         return <p>No order found</p>
     }
 
