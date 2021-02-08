@@ -1,9 +1,10 @@
 import styled from "styled-components"
+import { useState } from "react"
+import nProgress from "nprogress"
+import { useMutation, gql } from "@apollo/client"
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import SickButton from './styles/SickButton'
-import { useState } from "react"
-import nProgress from "nprogress"
 
 const CheckoutFormStyles = styled.form`
     box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.04);
@@ -20,7 +21,27 @@ const StripeErrorMessage = styled.p`
 
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY)
 
+const CHECKOUT_MUTATION = gql`
+    mutation CHECKOUT_MUTATION ($token: String!) {
+        checkout (token: $token) {
+            id,
+            total,
+            items {
+                id
+                title
+                description
+                image
+                quantity
+                price
+            },
+            charge,
+            label
+        }
+    }
+`
+
 const CheckoutForm = () => {
+    const [checkout, { error: checkoutError, data }] = useMutation(CHECKOUT_MUTATION)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const stripe = useStripe()
@@ -35,9 +56,20 @@ const CheckoutForm = () => {
             type: 'card',
             card: elements.getElement(CardElement)
         })
-        
+
         if (error) {
             setError(error)
+        } else {
+            const { id } = paymentMethod
+            try {
+                await checkout({
+                    variables: {
+                        token: id
+                    }
+                })
+            } catch (e) {
+                console.log('checkout error', e, data)
+            }
         }
 
         setLoading(false)
