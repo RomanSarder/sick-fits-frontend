@@ -3,8 +3,11 @@ import { useState } from "react"
 import nProgress from "nprogress"
 import { useMutation, gql } from "@apollo/client"
 import { loadStripe } from '@stripe/stripe-js'
+import { useRouter } from "next/dist/client/router"
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import SickButton from './styles/SickButton'
+import { useCart } from '../lib/cartState'
+import { CURRENT_USER_QUERY } from "./User"
 
 const CheckoutFormStyles = styled.form`
     box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.04);
@@ -41,7 +44,13 @@ const CHECKOUT_MUTATION = gql`
 `
 
 const CheckoutForm = () => {
-    const [checkout, { error: checkoutError, data }] = useMutation(CHECKOUT_MUTATION)
+    const router = useRouter()
+    const { closeCart } = useCart()
+    const [checkout, { error: checkoutError, data }] = useMutation(CHECKOUT_MUTATION, {
+        refetchQueries: [
+            { query: CURRENT_USER_QUERY }
+        ]
+    })
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const stripe = useStripe()
@@ -62,11 +71,17 @@ const CheckoutForm = () => {
         } else {
             const { id } = paymentMethod
             try {
-                await checkout({
+                const order = await checkout({
                     variables: {
                         token: id
                     }
                 })
+                router.push({
+                    pathname: '/order/[id]',
+                    query: { id: order.data.checkout.id}
+                })
+
+                closeCart()
             } catch (e) {
                 console.log('checkout error', e, data)
             }
