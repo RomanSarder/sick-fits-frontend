@@ -7,6 +7,7 @@ import Link from 'next/link'
 import formatMoney from '../lib/formatMoney'
 import DeleteItem from './DeleteItem'
 import AddToCart from './AddToCart'
+import SignedInOnly from './SignedInOnly'
 
 const Item = ({ item }) => {
     return (
@@ -20,11 +21,13 @@ const Item = ({ item }) => {
             <PriceTag>{formatMoney(item.price)}</PriceTag>
             <p>{item.description}</p>
             <div className="buttonList">
-                <Link href={`/item/${item.id}/edit`}>
-                    <a>Edit</a>
-                </Link>
-                <AddToCart id={item.id}/>
-                <DeleteItem id={item.id}>Delete Item</DeleteItem>
+                <SignedInOnly>
+                    <Link href={`/item/${item.id}/edit`}>
+                        <a>Edit</a>
+                    </Link>
+                    <AddToCart id={item.id}/>
+                    <DeleteItem id={item.id}>Delete Item</DeleteItem>
+                </SignedInOnly>
             </div>
         </ItemStyles>
     )
