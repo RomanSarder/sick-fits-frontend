@@ -8,7 +8,14 @@ export const CURRENT_USER_QUERY = gql`
             id,
             email,
             name,
-            permissions,
+            role {
+                canManageProducts
+                canSeeOtherUsers
+                canManageUsers
+                canManageRoles
+                canManageCart
+                canManageOrders
+            }
             orders {
                 id,
                 total,

@@ -13,7 +13,14 @@ const SIGNIN_MUTATION = gql`
             id
             email,
             name,
-            permissions,
+            role {
+                canManageProducts
+                canSeeOtherUsers
+                canManageUsers
+                canManageRoles
+                canManageCart
+                canManageOrders
+            }
         }
     }
 `

@@ -45,8 +45,6 @@ const UpdateItem = () => {
 
     const [title, setTitle] = useState(data?.item.title || '')
     const [description, setDescription] = useState(data?.item.description || '')
-    const [image, setImage] = useState(data?.item.image || '')
-    const [largeImage, setLargeImage] = useState(data?.item.largeImage || '')
     const [price, setPrice] = useState(data?.item.price || 0)
 
     const handleFormSubmit = async (event) => {
@@ -57,11 +55,9 @@ const UpdateItem = () => {
                 title,
                 description,
                 price,
-                image,
-                largeImage
             }})
             router.push({
-                pathname: '/item',
+                pathname: '/item/[id]',
                 query: { id:  data.updateItem.id}
             })
         } catch (e) {

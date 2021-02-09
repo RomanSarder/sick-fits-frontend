@@ -3,6 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import Head from 'next/head'
+import formatMoney from '../lib/formatMoney'
 
 const SingleItemStyles = styled.div`
     max-width: 1200px;
@@ -56,8 +57,9 @@ const SingleItem = () => {
                 <React.Fragment>
                     <img src={item?.largeImage} alt={item.title}/>
                     <div className="details">
-                        <h2>Viewing {item.titlel}</h2>
+                        <h2>Viewing {item.title}</h2>
                         <p>{item.description}</p>
+                        <p>{formatMoney(item.price)}</p>
                     </div>
                 </React.Fragment>
             )}
