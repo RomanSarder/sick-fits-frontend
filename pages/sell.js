@@ -1,10 +1,11 @@
 import {withApolloPage} from '../lib/withApollo'
 import CreateItem from '../components/CreateItem'
+import PleaseSignIn from '../components/PleaseSignIn'
 
 const Sell = props => (
-  <div>
+  <PleaseSignIn>
     <CreateItem></CreateItem>
-  </div>
+  </PleaseSignIn>
 )
 
 export default withApolloPage(Sell)
