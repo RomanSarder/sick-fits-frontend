@@ -38,14 +38,13 @@ const UpdateItem = () => {
 
     const [updateItem, { error: updateItemError, loading: updateItemLoading }] = useMutation(UPDATE_ITEM_MUTATION)
     const { error: getItemError, data, loading: getItemLoading } = useQuery(GET_ITEM_QUERY, { variables: { id } })
-
-    if (!data?.item) {
-        return (<p>No item found</p>)
-    }
-
     const [title, setTitle] = useState(data?.item.title || '')
     const [description, setDescription] = useState(data?.item.description || '')
     const [price, setPrice] = useState(data?.item.price || 0)
+    
+    if (!data?.item) {
+        return (<p>No item found</p>)
+    }
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
